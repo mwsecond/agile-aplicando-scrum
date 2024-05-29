@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bloco de Anotações</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <div class="container">
+      <div class="sidebar">
+        <h2>Minhas Notas</h2>
+        <input type="text" id="search-note" placeholder="Pesquisar notas..." />
+        <div class="notes-list" id="notes-list"></div>
+      </div>
+      <div class="main-content">
         <h1>Bloco de Anotações</h1>
         <div class="new-note">
-            <textarea id="new-note-content" placeholder="Digite sua nota aqui..."></textarea>
-            <button onclick="addNote()">Adicionar Nota</button>
+          <textarea
+            id="new-note-content"
+            placeholder="Digite sua nota aqui..."
+          ></textarea>
+          <button onclick="addNote()">Adicionar Nota</button>
         </div>
         <div class="notes" id="notes"></div>
+      </div>
     </div>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

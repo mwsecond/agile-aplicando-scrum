@@ -17,12 +17,29 @@ function addNote() {
 
   const deleteButton = document.createElement("button");
   deleteButton.classList.add("delete-button");
-  deleteButton.innerHTML = "&times;";
+  deleteButton.innerHTML = "Excluir";
   deleteButton.onclick = () => {
     notesContainer.removeChild(noteElement);
     notesList.removeChild(noteListItem);
+    updateNoteList();
   };
   noteElement.appendChild(deleteButton);
+
+  const editButton = document.createElement("button");
+  editButton.classList.add("edit-button");
+  editButton.innerHTML = "Editar";
+  editButton.onclick = () => {
+    if (editButton.innerHTML === "Editar") {
+      noteTextarea.removeAttribute("readonly");
+      noteTextarea.focus();
+      editButton.innerHTML = "Salvar";
+    } else {
+      noteTextarea.setAttribute("readonly", true);
+      editButton.innerHTML = "Editar";
+      updateNoteList();
+    }
+  };
+  noteElement.appendChild(editButton);
 
   notesContainer.appendChild(noteElement);
 
@@ -33,9 +50,33 @@ function addNote() {
   noteListItem.onclick = () => {
     noteTextarea.scrollIntoView();
   };
+
+  const listDeleteButton = document.createElement("button");
+  listDeleteButton.classList.add("delete-button");
+  listDeleteButton.innerHTML = "Excluir";
+  listDeleteButton.onclick = () => {
+    notesContainer.removeChild(noteElement);
+    notesList.removeChild(noteListItem);
+    updateNoteList();
+  };
+  noteListItem.appendChild(listDeleteButton);
+
   notesList.appendChild(noteListItem);
 
   document.getElementById("new-note-content").value = "";
+}
+
+function updateNoteList() {
+  const noteListItems = document.querySelectorAll(".note-item");
+  noteListItems.forEach((item) => {
+    const index = Array.from(item.parentNode.children).indexOf(item);
+    const correspondingNote = document.querySelectorAll(".note")[index];
+    item.textContent =
+      correspondingNote.querySelector("textarea").value.substring(0, 20) +
+      (correspondingNote.querySelector("textarea").value.length > 20
+        ? "..."
+        : "");
+  });
 }
 
 document.getElementById("search-note").addEventListener("input", function () {
@@ -43,12 +84,14 @@ document.getElementById("search-note").addEventListener("input", function () {
   const notes = document.querySelectorAll(".note");
   notes.forEach((note) => {
     const noteContent = note.querySelector("textarea").value.toLowerCase();
-    note.style.display = noteContent.includes(query) ? "block" : "none";
+    const shouldBeDisplayed = noteContent.includes(query);
+    note.style.display = shouldBeDisplayed ? "block" : "none";
   });
 
   const noteItems = document.querySelectorAll(".note-item");
   noteItems.forEach((item) => {
     const itemContent = item.textContent.toLowerCase();
-    item.style.display = itemContent.includes(query) ? "block" : "none";
+    const shouldBeDisplayed = itemContent.includes(query);
+    item.style.display = shouldBeDisplayed ? "block" : "none";
   });
 });
